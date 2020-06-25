@@ -8,6 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <title>LaraVue</title>
 
@@ -17,9 +18,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{ asset('laravue/dist/css/adminlte.min.css') }}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body class="hold-transition sidebar-mini">
-<div class="wrapper">
+<div id="app" class="wrapper">
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -79,17 +81,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                with font-awesome or any other icon font library -->
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+            <router-link to="/dashboard" class="nav-link" active-class="active">
+              <i class="nav-icon fas fa-tachometer-alt text-primary"></i>
               <p>
                 Dashboard
               </p>
-            </a>
+            </router-link>
           </li>
 
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-cog"></i>
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-cog text-success"></i>
               <p>
                 Management
                 <i class="right fas fa-angle-left"></i>
@@ -97,10 +99,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Active Page</p>
-                </a>
+                <router-link to="/users" class="nav-link" active-class="active">
+                  <i class="fas fa-users nav-icon"></i>
+                  <p>Users</p>
+                </router-link>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -112,21 +114,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-user"></i>
+            <router-link to="/profile" class="nav-link" active-class="active">
+              <i class="nav-icon fas fa-user text-warning"></i>
               <p>
                 Profile
               </p>
-            </a>
+            </router-link>
           </li>
-
+          
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-power-off"></i>
+            <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+              <i class="nav-icon fas fa-power-off text-danger"></i>
               <p>
                 Logout
               </p>
             </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
           </li>
 
         </ul>
@@ -160,7 +165,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
       <div class="container-fluid">
         
-
+          <router-view></router-view>
 
         <!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -189,5 +194,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset('laravue/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('laravue/dist/js/adminlte.min.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
+<script></script>
 </body>
 </html>
