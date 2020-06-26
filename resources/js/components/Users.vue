@@ -65,7 +65,7 @@
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th>ID</th>
+                      <th>Sl No.</th>
                       <th>Name</th>
                       <th>Email</th>
                       <th>Type</th>
@@ -116,7 +116,9 @@
                                     );
             },
             createUser() {
+                this.$Progress.start();
                 this.form.post('api/user');
+                this.$Progress.finish();
             }
         },
         mounted() {
