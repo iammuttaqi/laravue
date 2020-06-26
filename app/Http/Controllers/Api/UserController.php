@@ -32,7 +32,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string'
         ]);
-        return User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -40,6 +40,8 @@ class UserController extends Controller
             'bio' => $request->bio,
             'photo' => $request->photo,
         ]);
+
+        return 'User created successfully!';
     }
 
     /**
@@ -70,6 +72,8 @@ class UserController extends Controller
             'bio' => $request->bio,
             'photo' => $request->photo,
         ]);
+
+        return 'User updated successfully';
     }
 
     /**
@@ -81,5 +85,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::where('id', $id)->delete();
+
+        return 'User Deleted from Users table';
     }
 }

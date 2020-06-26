@@ -7,7 +7,7 @@
                 <h3 class="card-title">Users Table</h3>
 
                 <div class="card-tools">
-                  <button class="btn btn-success btn-lg" data-toggle="modal" data-target="#addNew"><i class="fas fa-user-plus"></i></button>
+                  <button class="btn btn-success btn-lg" @click="newModal"><i class="fas fa-user-plus"></i></button>
                 </div>
 
                 <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
@@ -19,7 +19,7 @@
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
-                        <form id="userForm" @submit.prevent="createUser">
+                        <form id="userForm" @submit.prevent="editMode ? updateUser() : createUser()">
                             <div class="modal-body">
                               <div class="form-group">
                                   <input type="text" name="name" placeholder="Name" class="form-control" v-model="form.name" :class="{ 'is-invalid' : form.errors.has('name') }">
@@ -49,7 +49,8 @@
                             </div>
                             <div class="modal-footer justify-content-between">
                               <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                              <button type="submit" class="btn btn-primary">Create</button>
+                              <button v-if="editMode" type="submit" class="btn btn-warning">Update</button>
+                              <button v-else="" type="submit" class="btn btn-primary">Create</button>
                             </div>
                         </form>
                       </div>
@@ -79,7 +80,7 @@
                       <td>{{ user.email }}</td>
                       <td><span class="tag tag-success">{{ user.type }}</span></td>
                       <td>
-                        <button @click="updateUser(user.id)" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+                        <button @click="editModal(user)" class="btn btn-warning"><i class="fa fa-edit"></i></button>
                         <button @click="deleteUser(user.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                       </td>
                     </tr>
@@ -98,8 +99,10 @@
     export default {
         data(){
             return {
+                editMode: false,
                 users: [],
                 form: new Form({
+                    id: '',
                     name: '',
                     email: '',
                     password: '',
@@ -110,6 +113,40 @@
             }
         },
         methods: {
+            newModal() {
+                this.form.reset();
+                this.editMode = false;
+                $('.modal-title').text('Add New User');
+                $('#addNew').modal('show');
+            },
+            editModal(user) {
+                this.form.fill(user);
+                this.editMode = true;
+                $('.modal-title').text('Edit User');
+                $('#addNew').modal('show');
+            },
+            updateUser(id) {
+                this.$Progress.start();
+                this.form.put('api/user/' +this.form.id)
+                .then((success) => {
+                    this.loadUsers();
+                    $('#addNew').modal('hide');
+                    $('.modal-backdrop').hide();
+                    Toast.fire({
+                      type: 'success',
+                      title: success.data
+                    });
+                    this.form.reset();
+                    this.$Progress.finish();
+                })
+                .catch(() => {
+                    this.$Progress.fail();
+                    Toast.fire({
+                      type: 'error',
+                      title: 'Something wrong!'
+                    });
+                });
+            },
             loadUsers(){
                 axios.get('api/user').then(
                                         ({ data }) => (this.users = data)
@@ -118,13 +155,13 @@
             createUser() {
                 this.$Progress.start();
                 this.form.post('api/user')
-                .then(() => {
+                .then((success) => {
                     this.loadUsers();
                     $('#addNew').modal('hide');
                     $('.modal-backdrop').hide();
                     Toast.fire({
                       type: 'success',
-                      title: 'User created successfully!'
+                      title: success.data
                     });
                     this.form.reset();
                     this.$Progress.finish();
@@ -136,21 +173,6 @@
                     });
                 });
             },
-            // deleteUser(id) {
-            //     this.$Progress.start();
-            //     axios.delete('api/user/' +id)
-            //     .then(() => {
-            //         this.loadUsers();
-            //         Toast.fire({
-            //           type: 'success',
-            //           title: 'User deleted successfully!'
-            //         });
-            //         this.$Progress.finish();
-            //     })
-            //     .catch(() => {
-
-            //     });
-            // },
             deleteUser(id) {
                 Swal.fire({
                   title: 'Are you sure?',
@@ -163,11 +185,11 @@
                 }).then((result) => {
                   if (result.value) {
                     axios.delete('api/user/' +id)
-                    .then(() => {
+                    .then((success) => {
                         this.loadUsers();
                         Toast.fire({
                           type: 'success',
-                          title: 'User deleted successfully!'
+                          title: success.data
                         });
                         this.$Progress.finish();
                     })
@@ -176,9 +198,6 @@
                     });
                   }
                 })
-            },
-            updateUser(id) {
-                alert(id);
             }
         },
         mounted() {
