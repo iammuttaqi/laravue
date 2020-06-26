@@ -70,6 +70,7 @@
                       <th>Name</th>
                       <th>Email</th>
                       <th>Type</th>
+                      <th>Registered At</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -79,6 +80,7 @@
                       <td>{{ user.name }}</td>
                       <td>{{ user.email }}</td>
                       <td><span class="tag tag-success">{{ user.type }}</span></td>
+                      <td>{{ user.created_at }}</td>
                       <td>
                         <button @click="editModal(user)" class="btn btn-warning"><i class="fa fa-edit"></i></button>
                         <button @click="deleteUser(user.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
@@ -201,7 +203,8 @@
             }
         },
         mounted() {
-            console.log('Component mounted.')
+            console.log('Component mounted.');
+            $('.pageTitle').text('Users');
         },
         created() {
             this.loadUsers();

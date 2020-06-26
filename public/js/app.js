@@ -1927,6 +1927,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
+    $('.pageTitle').text('Dashboard');
   }
 });
 
@@ -1993,6 +1994,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
+    $('.pageTitle').text('Profile');
   }
 });
 
@@ -2007,6 +2009,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -2220,6 +2224,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     console.log('Component mounted.');
+    $('.pageTitle').text('Users');
   },
   created: function created() {
     this.loadUsers(); // setInterval(() => this.loadUsers(), 3000);
@@ -39306,6 +39311,8 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(user.created_at))]),
+                    _vm._v(" "),
                     _c("td", [
                       _c(
                         "button",
@@ -39379,6 +39386,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Email")]),
         _vm._v(" "),
         _c("th", [_vm._v("Type")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Registered At")]),
         _vm._v(" "),
         _c("th", [_vm._v("Actions")])
       ])
