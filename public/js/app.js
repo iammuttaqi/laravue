@@ -2150,20 +2150,45 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
+    // deleteUser(id) {
+    //     this.$Progress.start();
+    //     axios.delete('api/user/' +id)
+    //     .then(() => {
+    //         this.loadUsers();
+    //         Toast.fire({
+    //           type: 'success',
+    //           title: 'User deleted successfully!'
+    //         });
+    //         this.$Progress.finish();
+    //     })
+    //     .catch(() => {
+    //     });
+    // },
     deleteUser: function deleteUser(id) {
       var _this3 = this;
 
-      this.$Progress.start();
-      axios["delete"]('api/user/' + id).then(function () {
-        _this3.loadUsers();
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        if (result.value) {
+          axios["delete"]('api/user/' + id).then(function () {
+            _this3.loadUsers();
 
-        Toast.fire({
-          type: 'success',
-          title: 'User deleted successfully!'
-        });
+            Toast.fire({
+              type: 'success',
+              title: 'User deleted successfully!'
+            });
 
-        _this3.$Progress.finish();
-      })["catch"](function () {});
+            _this3.$Progress.finish();
+          })["catch"](function () {});
+        }
+      });
     },
     updateUser: function updateUser(id) {
       alert(id);

@@ -136,20 +136,46 @@
                     });
                 });
             },
+            // deleteUser(id) {
+            //     this.$Progress.start();
+            //     axios.delete('api/user/' +id)
+            //     .then(() => {
+            //         this.loadUsers();
+            //         Toast.fire({
+            //           type: 'success',
+            //           title: 'User deleted successfully!'
+            //         });
+            //         this.$Progress.finish();
+            //     })
+            //     .catch(() => {
+
+            //     });
+            // },
             deleteUser(id) {
-                this.$Progress.start();
-                axios.delete('api/user/' +id)
-                .then(() => {
-                    this.loadUsers();
-                    Toast.fire({
-                      type: 'success',
-                      title: 'User deleted successfully!'
+                Swal.fire({
+                  title: 'Are you sure?',
+                  text: "You won't be able to revert this!",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                  if (result.value) {
+                    axios.delete('api/user/' +id)
+                    .then(() => {
+                        this.loadUsers();
+                        Toast.fire({
+                          type: 'success',
+                          title: 'User deleted successfully!'
+                        });
+                        this.$Progress.finish();
+                    })
+                    .catch(() => {
+
                     });
-                    this.$Progress.finish();
+                  }
                 })
-                .catch(() => {
-                    
-                });
             },
             updateUser(id) {
                 alert(id);
