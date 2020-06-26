@@ -10,7 +10,7 @@
                   <button class="btn btn-success btn-lg" data-toggle="modal" data-target="#addNew"><i class="fas fa-user-plus"></i></button>
                 </div>
 
-                <div class="modal fade" id="addNew">
+                <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content">
                         <div class="modal-header">
@@ -19,7 +19,7 @@
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
-                        <form @submit.prevent="createUser">
+                        <form id="userForm" @submit.prevent="createUser">
                             <div class="modal-body">
                               <div class="form-group">
                                   <input type="text" name="name" placeholder="Name" class="form-control" v-model="form.name" :class="{ 'is-invalid' : form.errors.has('name') }">
@@ -118,6 +118,9 @@
             createUser() {
                 this.$Progress.start();
                 this.form.post('api/user');
+                $('#addNew').modal('hide');
+                $('.modal-backdrop').hide();
+                this.form.reset();
                 this.$Progress.finish();
             }
         },
@@ -126,6 +129,7 @@
         },
         created() {
             this.loadUsers();
+            setInterval(() => this.loadUsers(), 3000);
         }
     }
 </script>
