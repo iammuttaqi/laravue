@@ -69,13 +69,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table laravue.users: ~2 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `type`, `bio`, `photo`, `remember_token`, `created_at`, `updated_at`) VALUES
-	(1, 'Muntaser Muttaqi', 'admin@admin.com', NULL, '$2y$10$P7Px2Xs4ZvY9gh/j5wITROmxMseoDP8n9O/GX18oLW1YSaxWN2OKW', 'admin', 'be honest', NULL, NULL, '2020-06-25 20:03:25', '2020-06-25 20:03:25'),
-	(5, 'Sami Zayn', 'sami@zayn.com', NULL, '$2y$10$KustXixq5m0aX86swAnWt.38nhm3MPP7casVgvu1X3KMjlt7t3CUa', 'author', 'sami for syria', NULL, NULL, '2020-06-25 20:09:58', '2020-06-25 20:09:58');
+	(26, 'Muntaser Muttaqi', 'admin@admin.com', NULL, '$2y$10$BHVbqkzz4nVmMZ1IrLmf2epSeBq/4I4lJlhQJFd6BogxbZrpk95bS', NULL, NULL, NULL, 'dc6Rg2Do0i4yAiclZzNdvtOLPEcgINyCJur6SfnV90slcrEvFvR8sHIfvnFv', '2020-06-26 06:02:06', '2020-06-26 06:02:06'),
+	(111, 'Sami Zaynb', 'sami@zayn.comc', NULL, '$2y$10$5qE0YihwZaI8PQ5VaZ5iC.JNFoVILjIaf3ksWpk4KnJVTFSknWvd6', 'user', 'dfsdfdf', NULL, NULL, '2020-06-26 16:26:00', '2020-06-26 17:06:54'),
+	(112, 'Kevin Owens', 'kein@v.com', NULL, '$2y$10$gjNUNaSn7lZZ/coy5i9BZOh1pKaIgt0WZfdY43LFPUw3ikWIyu73q', 'author', 'aaaaaaaaaa', NULL, NULL, '2020-06-26 16:26:41', '2020-06-26 17:07:43'),
+	(115, 'Black Widow', 'black@widow.com', NULL, '$2y$10$KVxP6JjImqfMfdQdy79rlOwwIbsR5YMh.cYLFApqU9cS7SukvJcfC', 'author', 'sdfdff', NULL, NULL, '2020-06-26 17:08:00', '2020-06-26 17:08:11');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -64,6 +64,11 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$id,
+            'password' => 'sometimes|string'
+        ]);
         User::where('id', $id)->update([
             'name' => $request->name,
             'email' => $request->email,
