@@ -14,6 +14,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="{{ asset('laravue/plugins/fontawesome-free/css/all.min.css') }}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{{ asset('laravue/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="{{ asset('laravue/plugins/toastr/toastr.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('laravue/dist/css/adminlte.min.css') }}">
   <!-- Google Font: Source Sans Pro -->
@@ -193,6 +197,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset('laravue/plugins/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{ asset('laravue/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- SweetAlert2 -->
+<script src="{{ asset('laravue/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<!-- Toastr -->
+<script src="{{ asset('laravue/plugins/toastr/toastr.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('laravue/dist/js/adminlte.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>

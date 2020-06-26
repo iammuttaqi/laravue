@@ -26,6 +26,15 @@ Vue.use(VueProgressbar, {
 	height: '3px'
 })
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000
+});
+
+window.Toast = Toast;
+
 const routes = [
 	{ path: '/dashboard', component: require('./components/Dashboard.vue').default },
 	{ path: '/profile', component: require('./components/Profile.vue').default },

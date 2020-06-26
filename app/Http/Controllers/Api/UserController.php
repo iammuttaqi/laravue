@@ -29,8 +29,8 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'email|required|unique:users,email',
-            'password' => 'string|required'
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string'
         ]);
         return User::create([
             'name' => $request->name,
@@ -50,7 +50,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        return User::where('id', $id)->first();
     }
 
     /**
@@ -62,7 +62,14 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        User::where('id', $id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'type' => $request->type,
+            'bio' => $request->bio,
+            'photo' => $request->photo,
+        ]);
     }
 
     /**
@@ -73,6 +80,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::where('id', $id)->delete();
     }
 }

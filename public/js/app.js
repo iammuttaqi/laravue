@@ -2127,24 +2127,53 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     createUser: function createUser() {
+      var _this2 = this;
+
       this.$Progress.start();
-      this.form.post('api/user');
-      $('#addNew').modal('hide');
-      $('.modal-backdrop').hide();
-      this.form.reset();
-      this.$Progress.finish();
+      this.form.post('api/user').then(function () {
+        _this2.loadUsers();
+
+        $('#addNew').modal('hide');
+        $('.modal-backdrop').hide();
+        Toast.fire({
+          type: 'success',
+          title: 'User created successfully!'
+        });
+
+        _this2.form.reset();
+
+        _this2.$Progress.finish();
+      })["catch"](function () {
+        Toast.fire({
+          type: 'error',
+          title: 'Something wrong!'
+        });
+      });
+    },
+    deleteUser: function deleteUser(id) {
+      var _this3 = this;
+
+      this.$Progress.start();
+      axios["delete"]('api/user/' + id).then(function () {
+        _this3.loadUsers();
+
+        Toast.fire({
+          type: 'success',
+          title: 'User deleted successfully!'
+        });
+
+        _this3.$Progress.finish();
+      })["catch"](function () {});
+    },
+    updateUser: function updateUser(id) {
+      alert(id);
     }
   },
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   created: function created() {
-    var _this2 = this;
-
-    this.loadUsers();
-    setInterval(function () {
-      return _this2.loadUsers();
-    }, 3000);
+    this.loadUsers(); // setInterval(() => this.loadUsers(), 3000);
   }
 });
 
@@ -39182,7 +39211,33 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(4, true)
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-warning",
+                          on: {
+                            click: function($event) {
+                              return _vm.updateUser(user.id)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-edit" })]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteUser(user.id)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-trash" })]
+                      )
+                    ])
                   ])
                 }),
                 0
@@ -39267,20 +39322,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Type")]),
         _vm._v(" "),
         _c("th", [_vm._v("Actions")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { staticClass: "btn btn-warning", attrs: { href: "#" } }, [
-        _c("i", { staticClass: "fa fa-edit" })
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "btn btn-danger", attrs: { href: "#" } }, [
-        _c("i", { staticClass: "fa fa-trash" })
       ])
     ])
   }
@@ -54528,6 +54569,13 @@ Vue.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_2___default.a, {
   failedColor: 'red',
   height: '3px'
 });
+var Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000
+});
+window.Toast = Toast;
 var routes = [{
   path: '/dashboard',
   component: __webpack_require__(/*! ./components/Dashboard.vue */ "./resources/js/components/Dashboard.vue")["default"]

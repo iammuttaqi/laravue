@@ -79,8 +79,8 @@
                       <td>{{ user.email }}</td>
                       <td><span class="tag tag-success">{{ user.type }}</span></td>
                       <td>
-                        <a href="#" class="btn btn-warning"><i class="fa fa-edit"></i></a>
-                        <a href="#" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                        <button @click="updateUser(user.id)" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+                        <button @click="deleteUser(user.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                       </td>
                     </tr>
                   </tbody>
@@ -117,11 +117,42 @@
             },
             createUser() {
                 this.$Progress.start();
-                this.form.post('api/user');
-                $('#addNew').modal('hide');
-                $('.modal-backdrop').hide();
-                this.form.reset();
-                this.$Progress.finish();
+                this.form.post('api/user')
+                .then(() => {
+                    this.loadUsers();
+                    $('#addNew').modal('hide');
+                    $('.modal-backdrop').hide();
+                    Toast.fire({
+                      type: 'success',
+                      title: 'User created successfully!'
+                    });
+                    this.form.reset();
+                    this.$Progress.finish();
+                })
+                .catch(() => {
+                    Toast.fire({
+                      type: 'error',
+                      title: 'Something wrong!'
+                    });
+                });
+            },
+            deleteUser(id) {
+                this.$Progress.start();
+                axios.delete('api/user/' +id)
+                .then(() => {
+                    this.loadUsers();
+                    Toast.fire({
+                      type: 'success',
+                      title: 'User deleted successfully!'
+                    });
+                    this.$Progress.finish();
+                })
+                .catch(() => {
+                    
+                });
+            },
+            updateUser(id) {
+                alert(id);
             }
         },
         mounted() {
@@ -129,7 +160,7 @@
         },
         created() {
             this.loadUsers();
-            setInterval(() => this.loadUsers(), 3000);
+            // setInterval(() => this.loadUsers(), 3000);
         }
     }
 </script>
