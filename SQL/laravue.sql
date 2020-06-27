@@ -32,15 +32,111 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table laravue.migrations: ~3 rows (approximately)
+-- Dumping data for table laravue.migrations: ~8 rows (approximately)
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(4, '2014_10_12_000000_create_users_table', 1),
 	(5, '2014_10_12_100000_create_password_resets_table', 1),
-	(6, '2019_08_19_000000_create_failed_jobs_table', 1);
+	(6, '2019_08_19_000000_create_failed_jobs_table', 1),
+	(7, '2016_06_01_000001_create_oauth_auth_codes_table', 2),
+	(8, '2016_06_01_000002_create_oauth_access_tokens_table', 2),
+	(9, '2016_06_01_000003_create_oauth_refresh_tokens_table', 2),
+	(10, '2016_06_01_000004_create_oauth_clients_table', 2),
+	(11, '2016_06_01_000005_create_oauth_personal_access_clients_table', 2);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+
+-- Dumping structure for table laravue.oauth_access_tokens
+CREATE TABLE IF NOT EXISTS `oauth_access_tokens` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `client_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_access_tokens_user_id_index` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table laravue.oauth_access_tokens: ~3 rows (approximately)
+/*!40000 ALTER TABLE `oauth_access_tokens` DISABLE KEYS */;
+INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
+	('05bf12966f40f2597818f80ae29b2307b89a0cbcdfed4030c788a3269da8b1734f29f8de50f9c618', 26, 1, 'Testing', '[]', 1, '2020-06-27 14:57:14', '2020-06-27 14:57:14', '2021-06-27 14:57:14'),
+	('ab76a635658a69e6794ecf117a8240e9ebdd58cfe3e34cf11e5c2c0d68a45a292b65f7a45ad0f767', 26, 1, 'Testing', '[]', 0, '2020-06-27 14:57:30', '2020-06-27 14:57:30', '2021-06-27 14:57:30'),
+	('b6f89484874d2a9ef7e77a3b316984409639806fcca6b9455829e996d6dc26f755d739ebbeaf38fe', 26, 1, 'Testing', '[]', 1, '2020-06-27 14:57:14', '2020-06-27 14:57:14', '2021-06-27 14:57:14');
+/*!40000 ALTER TABLE `oauth_access_tokens` ENABLE KEYS */;
+
+-- Dumping structure for table laravue.oauth_auth_codes
+CREATE TABLE IF NOT EXISTS `oauth_auth_codes` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `client_id` bigint(20) unsigned NOT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_auth_codes_user_id_index` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table laravue.oauth_auth_codes: ~0 rows (approximately)
+/*!40000 ALTER TABLE `oauth_auth_codes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oauth_auth_codes` ENABLE KEYS */;
+
+-- Dumping structure for table laravue.oauth_clients
+CREATE TABLE IF NOT EXISTS `oauth_clients` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `secret` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `provider` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `redirect` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `personal_access_client` tinyint(1) NOT NULL,
+  `password_client` tinyint(1) NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_clients_user_id_index` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table laravue.oauth_clients: ~2 rows (approximately)
+/*!40000 ALTER TABLE `oauth_clients` DISABLE KEYS */;
+INSERT INTO `oauth_clients` (`id`, `user_id`, `name`, `secret`, `provider`, `redirect`, `personal_access_client`, `password_client`, `revoked`, `created_at`, `updated_at`) VALUES
+	(1, NULL, 'Laravel Personal Access Client', 'HPwjBkIylUiPHgSuKo9Fu29EwtFsv5FDrux5dRu8', NULL, 'http://localhost', 1, 0, 0, '2020-06-27 08:31:24', '2020-06-27 08:31:24'),
+	(2, NULL, 'Laravel Password Grant Client', 'oRTXeCOuwzAbHjfxv9HUuETCVUXBpLuAFnsBBFO6', 'users', 'http://localhost', 0, 1, 0, '2020-06-27 08:31:25', '2020-06-27 08:31:25');
+/*!40000 ALTER TABLE `oauth_clients` ENABLE KEYS */;
+
+-- Dumping structure for table laravue.oauth_personal_access_clients
+CREATE TABLE IF NOT EXISTS `oauth_personal_access_clients` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `client_id` bigint(20) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table laravue.oauth_personal_access_clients: ~0 rows (approximately)
+/*!40000 ALTER TABLE `oauth_personal_access_clients` DISABLE KEYS */;
+INSERT INTO `oauth_personal_access_clients` (`id`, `client_id`, `created_at`, `updated_at`) VALUES
+	(1, 1, '2020-06-27 08:31:25', '2020-06-27 08:31:25');
+/*!40000 ALTER TABLE `oauth_personal_access_clients` ENABLE KEYS */;
+
+-- Dumping structure for table laravue.oauth_refresh_tokens
+CREATE TABLE IF NOT EXISTS `oauth_refresh_tokens` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `access_token_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table laravue.oauth_refresh_tokens: ~0 rows (approximately)
+/*!40000 ALTER TABLE `oauth_refresh_tokens` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oauth_refresh_tokens` ENABLE KEYS */;
 
 -- Dumping structure for table laravue.password_resets
 CREATE TABLE IF NOT EXISTS `password_resets` (
@@ -69,15 +165,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table laravue.users: ~2 rows (approximately)
+-- Dumping data for table laravue.users: ~5 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `type`, `bio`, `photo`, `remember_token`, `created_at`, `updated_at`) VALUES
-	(26, 'Muntaser Muttaqi', 'admin@admin.com', NULL, '$2y$10$BHVbqkzz4nVmMZ1IrLmf2epSeBq/4I4lJlhQJFd6BogxbZrpk95bS', NULL, NULL, NULL, 'dc6Rg2Do0i4yAiclZzNdvtOLPEcgINyCJur6SfnV90slcrEvFvR8sHIfvnFv', '2020-06-26 06:02:06', '2020-06-26 06:02:06'),
-	(111, 'Sami Zaynb', 'sami@zayn.comc', NULL, '$2y$10$5qE0YihwZaI8PQ5VaZ5iC.JNFoVILjIaf3ksWpk4KnJVTFSknWvd6', 'user', 'dfsdfdf', NULL, NULL, '2020-06-26 16:26:00', '2020-06-26 17:06:54'),
-	(112, 'Kevin Owens', 'kein@v.com', NULL, '$2y$10$gjNUNaSn7lZZ/coy5i9BZOh1pKaIgt0WZfdY43LFPUw3ikWIyu73q', 'author', 'aaaaaaaaaa', NULL, NULL, '2020-06-26 16:26:41', '2020-06-26 17:07:43'),
-	(115, 'Black Widow', 'black@widow.com', NULL, '$2y$10$KVxP6JjImqfMfdQdy79rlOwwIbsR5YMh.cYLFApqU9cS7SukvJcfC', 'author', 'sdfdff', NULL, NULL, '2020-06-26 17:08:00', '2020-06-26 17:08:11');
+	(111, 'Sami Zayn', 'sami@zayn.com', NULL, '$2y$10$8kcmdi0OjTmR3QgQtSTFL.dFdjCG3e6UZTArNLTKn.m/3pwT5qC1m', 'user', 'dfsdfdf', NULL, NULL, '2020-06-26 16:26:00', '2020-06-26 17:37:18'),
+	(112, 'Kevin Owens', 'kein@v.com', NULL, '$2y$10$WTocFjTRx91i58JS/7yKYepgZb4dHyZQRJP6EjQ6D3gceI/89t51m', 'author', 'fight owens fight', NULL, NULL, '2020-06-26 16:26:41', '2020-06-26 17:36:31'),
+	(117, 'Parsha', 'parsha@mehjabin.com', NULL, '$2y$10$DqcMG9qlwSKXSBXG/6Y2KunAwj3JGfwcIWuVL7.mmmM7jZmABvKQy', 'user', 'adfdf', NULL, NULL, '2020-06-27 14:37:14', '2020-06-27 14:37:14'),
+	(118, 'Touta', 'tota@gmail.com', NULL, '$2y$10$HuMi/oV.v9/0Q12ZtKfrwuct3kNHhVgPY4tiFau6PH583N.DU1Uwu', 'user', 'asdf', NULL, NULL, '2020-06-27 14:37:34', '2020-06-27 14:38:53'),
+	(119, 'Muntaser Muttaqi', 'admin@admin.com', NULL, '$2y$10$/i/vnu3OpmJhEkFEFvS1W.5g9WotABqs7Ir7ixeJeMJdg8AqaP53K', NULL, NULL, NULL, NULL, '2020-06-27 15:07:22', '2020-06-27 15:07:22');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
