@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use Hash;
+use Image;
 
 class UserController extends Controller
 {
@@ -13,22 +14,12 @@ class UserController extends Controller
     {
         $this->middleware('auth:api');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         return User::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -48,35 +39,70 @@ class UserController extends Controller
         return 'User created successfully!';
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        return User::where('id', $id)->first();
+        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function profile()
+    {
+        return auth('api')->user();
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = auth('api')->user();
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$user->id,
+            'password' => 'sometimes|required|string|min:6'
+        ]);
+
+        $currentPhoto = $user->photo;
+
+        if ($request->photo != $currentPhoto) {
+
+            if (file_exists(public_path('uploads/').$currentPhoto)) {
+                unlink(public_path('uploads/').$currentPhoto);
+            }
+
+            $filename = 'user-'.time().'.png';
+            Image::make($request->photo)->save(public_path('uploads/').$filename);
+            User::where('id', $user->id)->update([
+                'photo' => $filename,
+            ]);
+        }
+        if ($request->password) {
+            User::where('id', $user->id)->update([
+                'password' => Hash::make($request->password),
+            ]);
+        }
+        User::where('id', $user->id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'bio' => $request->bio
+        ]);
+
+        return response('Profile updated');
+
+    }
+
     public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'sometimes|string'
+            'password' => 'sometimes|required|string'
         ]);
+        if ($request->password) {
+            User::where('id', $id)->update([
+                'password' => Hash::make($request->password),
+            ]);
+        }
         User::where('id', $id)->update([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
             'type' => $request->type,
             'bio' => $request->bio,
             'photo' => $request->photo,
@@ -85,12 +111,6 @@ class UserController extends Controller
         return 'User updated successfully';
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         User::where('id', $id)->delete();

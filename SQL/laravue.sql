@@ -165,16 +165,13 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table laravue.users: ~5 rows (approximately)
+-- Dumping data for table laravue.users: ~2 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `type`, `bio`, `photo`, `remember_token`, `created_at`, `updated_at`) VALUES
-	(111, 'Sami Zayn', 'sami@zayn.com', NULL, '$2y$10$8kcmdi0OjTmR3QgQtSTFL.dFdjCG3e6UZTArNLTKn.m/3pwT5qC1m', 'user', 'dfsdfdf', NULL, NULL, '2020-06-26 16:26:00', '2020-06-26 17:37:18'),
-	(112, 'Kevin Owens', 'kein@v.com', NULL, '$2y$10$WTocFjTRx91i58JS/7yKYepgZb4dHyZQRJP6EjQ6D3gceI/89t51m', 'author', 'fight owens fight', NULL, NULL, '2020-06-26 16:26:41', '2020-06-26 17:36:31'),
-	(117, 'Parsha', 'parsha@mehjabin.com', NULL, '$2y$10$DqcMG9qlwSKXSBXG/6Y2KunAwj3JGfwcIWuVL7.mmmM7jZmABvKQy', 'user', 'adfdf', NULL, NULL, '2020-06-27 14:37:14', '2020-06-27 14:37:14'),
-	(118, 'Touta', 'tota@gmail.com', NULL, '$2y$10$HuMi/oV.v9/0Q12ZtKfrwuct3kNHhVgPY4tiFau6PH583N.DU1Uwu', 'user', 'asdf', NULL, NULL, '2020-06-27 14:37:34', '2020-06-27 14:38:53'),
-	(119, 'Muntaser Muttaqi', 'admin@admin.com', NULL, '$2y$10$/i/vnu3OpmJhEkFEFvS1W.5g9WotABqs7Ir7ixeJeMJdg8AqaP53K', NULL, NULL, NULL, NULL, '2020-06-27 15:07:22', '2020-06-27 15:07:22');
+	(123, 'Muntaser Muttaqi', 'admin@admin.com', NULL, '$2y$10$9qquCbiNIOO8IfYBiixh7OvIOE3cO4K44noPv8synLlV2vPgXBLhW', 'admin', 'Be Honest', 'user-1593338163.png', 'RR0r0gGJIkYGX7QOMfeKdUSHGBfyd7UiQvBX2ONVg4r3eHzoTUTdXcfASvZC', '2020-06-28 07:20:37', '2020-06-28 09:56:03'),
+	(124, 'Kevin Owens', 'kevin@owens.com', NULL, '$2y$10$uHg8i17iq0huejsROlVK6OOvxzzsYcNfh9MWC3cbKoYPS3aCms0Ha', 'user', 'fight owens fightq', NULL, NULL, '2020-06-28 07:23:48', '2020-06-28 07:24:15');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

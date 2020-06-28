@@ -10,7 +10,7 @@
                   <button class="btn btn-success btn-lg" @click="newModal"><i class="fas fa-user-plus"></i></button>
                 </div>
 
-                <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+                <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content">
                         <div class="modal-header">
@@ -115,24 +115,24 @@
             }
         },
         methods: {
+
+            loadUsers(){
+                axios.get('api/user').then(
+                                        (success) => (this.users = success.data)
+                                    );
+            },
             newModal() {
                 this.form.reset();
                 this.editMode = false;
                 $('.modal-title').text('Add New User');
-                $('#addNew').modal('show');
+                $('#formModal').modal('show');
             },
-            editModal(user) {
-                this.form.fill(user);
-                this.editMode = true;
-                $('.modal-title').text('Edit User');
-                $('#addNew').modal('show');
-            },
-            updateUser(id) {
+            createUser() {
                 this.$Progress.start();
-                this.form.put('api/user/' +this.form.id)
+                this.form.post('api/user')
                 .then((success) => {
                     this.loadUsers();
-                    $('#addNew').modal('hide');
+                    $('#formModal').modal('hide');
                     $('.modal-backdrop').hide();
                     Toast.fire({
                       type: 'success',
@@ -149,17 +149,18 @@
                     });
                 });
             },
-            loadUsers(){
-                axios.get('api/user').then(
-                                        ({ data }) => (this.users = data)
-                                    );
+            editModal(user) {
+                this.form.fill(user);
+                this.editMode = true;
+                $('.modal-title').text('Edit User');
+                $('#formModal').modal('show');
             },
-            createUser() {
+            updateUser(id) {
                 this.$Progress.start();
-                this.form.post('api/user')
+                this.form.put('api/user/' +this.form.id)
                 .then((success) => {
                     this.loadUsers();
-                    $('#addNew').modal('hide');
+                    $('#formModal').modal('hide');
                     $('.modal-backdrop').hide();
                     Toast.fire({
                       type: 'success',
@@ -169,6 +170,7 @@
                     this.$Progress.finish();
                 })
                 .catch(() => {
+                    this.$Progress.fail();
                     Toast.fire({
                       type: 'error',
                       title: 'Something wrong!'
@@ -186,6 +188,7 @@
                   confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                   if (result.value) {
+                    this.$Progress.start();
                     axios.delete('api/user/' +id)
                     .then((success) => {
                         this.loadUsers();
@@ -196,11 +199,16 @@
                         this.$Progress.finish();
                     })
                     .catch(() => {
-
+                        this.$Progress.fail();
+                        Toast.fire({
+                          type: 'error',
+                          title: 'Something wrong'
+                        });
                     });
                   }
                 })
             }
+
         },
         mounted() {
             console.log('Component mounted.');
