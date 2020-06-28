@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="row">
+        <div class="row" v-if="$gate.isAdminOrAuthor()">
           <div class="col-12">
             <div class="card">
               <div class="card-header">
@@ -90,9 +90,15 @@
                 </table>
               </div>
               <!-- /.card-body -->
+              <div class="card-footer">
+                <button @click.prevent="printMe" class="btn btn-lg btn-primary"><i class="fas fa-print mr-2"></i>Print</button>
+              </div>
             </div>
             <!-- /.card -->
           </div>
+        </div>
+        <div v-else="">
+          <not-found></not-found>
         </div>
     </div>
 </template>
@@ -117,9 +123,9 @@
         methods: {
 
             loadUsers(){
-                axios.get('api/user').then(
-                                        (success) => (this.users = success.data)
-                                    );
+              if (this.$gate.isAdminOrAuthor()) {
+                axios.get('api/user').then((success) => (this.users = success.data));
+              }
             },
             newModal() {
                 this.form.reset();
@@ -207,6 +213,9 @@
                     });
                   }
                 })
+            },
+            printMe() {
+              window.print();
             }
 
         },

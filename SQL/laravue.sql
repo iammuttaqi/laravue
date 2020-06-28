@@ -165,13 +165,13 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table laravue.users: ~2 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `type`, `bio`, `photo`, `remember_token`, `created_at`, `updated_at`) VALUES
-	(123, 'Muntaser Muttaqi', 'admin@admin.com', NULL, '$2y$10$9qquCbiNIOO8IfYBiixh7OvIOE3cO4K44noPv8synLlV2vPgXBLhW', 'admin', 'Be Honest', 'user-1593338163.png', 'RR0r0gGJIkYGX7QOMfeKdUSHGBfyd7UiQvBX2ONVg4r3eHzoTUTdXcfASvZC', '2020-06-28 07:20:37', '2020-06-28 09:56:03'),
-	(124, 'Kevin Owens', 'kevin@owens.com', NULL, '$2y$10$uHg8i17iq0huejsROlVK6OOvxzzsYcNfh9MWC3cbKoYPS3aCms0Ha', 'user', 'fight owens fightq', NULL, NULL, '2020-06-28 07:23:48', '2020-06-28 07:24:15');
+	(123, 'Muntaser Muttaqi', 'admin@admin.com', NULL, '$2y$10$j0rHYwebLbY1KythJ3sGGeixdUk1hEvaID1T0pWOlADTQwrgg9Nli', 'admin', 'Be Honest', 'user-1593356777.png', 'kyLTvIqsX7mpGMomLYKxAyJrqE7RBZ2q5yyJHLXYnjSv0ef5VyJxCqaGJjXx', '2020-06-28 07:20:37', '2020-06-28 17:57:10'),
+	(124, 'Kevin Owens', 'kevin@owens.com', NULL, '$2y$10$WOcd4Y7.ARhiWWQ016OaOeF2y5tKorTb8w8WICw6z0Q0dl8ThuFBq', 'user', 'fight owens fightq', NULL, 'oQV4sGd276U1vCbdLQF4t4vfLRyhy10d5MP0P6dLBsFGPhh9u5yT4q0diuhK', '2020-06-28 07:23:48', '2020-06-28 14:15:46');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

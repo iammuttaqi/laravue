@@ -11,6 +11,9 @@ import { Form, HasError, AlertError } from 'vform'
 
 window.Form = Form;
 
+import Gate from './Gate';
+Vue.prototype.$gate = new Gate(window.user);
+
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
@@ -40,6 +43,7 @@ const routes = [
 	{ path: '/profile', component: require('./components/Profile.vue').default },
 	{ path: '/developer', component: require('./components/Developer.vue').default },
 	{ path: '/users', component: require('./components/Users.vue').default },
+	{ path: '*', component: require('./components/NotFound.vue').default },
 ]
 
 const router = new VueRouter({
@@ -74,6 +78,8 @@ Vue.component(
     'passport-personal-access-tokens',
     require('./components/passport/PersonalAccessTokens.vue').default
 );
+
+Vue.component('not-found', require('./components/NotFound.vue').default );
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

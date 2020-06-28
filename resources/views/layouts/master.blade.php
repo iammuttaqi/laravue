@@ -10,7 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title class="pageTitle"></title>
+  <title class="pageTitle">Dashboard</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="{{ asset('laravue/plugins/fontawesome-free/css/all.min.css') }}">
@@ -71,10 +71,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{ asset('laravue/dist/img/avatar5.png') }}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ asset('uploads') }}/{{ Auth::user()->photo }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+          <span class="text-light">{{ Auth::user()->type }}</span>
         </div>
       </div>
 
@@ -93,30 +94,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </router-link>
           </li>
 
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-cog text-success"></i>
-              <p>
-                Management
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <router-link to="/users" class="nav-link" active-class="active">
-                  <i class="fas fa-users nav-icon"></i>
-                  <p>Users</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inactive Page</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+          @can('isAdmin')
 
+          <li class="nav-item">
+            <router-link to="/users" class="nav-link" active-class="active">
+              <i class="nav-icon fas fa-users text-success"></i>
+              <p>
+                Users
+              </p>
+            </router-link>
+          </li>
+          
           <li class="nav-item">
             <router-link to="/developer" class="nav-link" active-class="active">
               <i class="nav-icon fas fa-cogs"></i>
@@ -125,6 +113,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </router-link>
           </li>
+          @endcan
 
           <li class="nav-item">
             <router-link to="/profile" class="nav-link" active-class="active">
@@ -199,6 +188,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </footer>
 </div>
 <!-- ./wrapper -->
+
+@auth
+  <script>
+    window.user = @json(auth()->user())
+  </script>
+@endauth
 
 <!-- REQUIRED SCRIPTS -->
 

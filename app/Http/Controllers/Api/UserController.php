@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Hash;
 use Image;
+use Gate;
 
 class UserController extends Controller
 {
@@ -17,7 +18,9 @@ class UserController extends Controller
 
     public function index()
     {
-        return User::all();
+        if (Gate::allows('isAdmin') || Gate::allows('isAuthor')) {
+            return User::all();
+        }
     }
 
     public function store(Request $request)
@@ -113,6 +116,8 @@ class UserController extends Controller
 
     public function destroy($id)
     {
+        $this->authorize('isAdmin');
+
         User::where('id', $id)->delete();
 
         return 'User Deleted from Users table';
